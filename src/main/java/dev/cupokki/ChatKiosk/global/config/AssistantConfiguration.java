@@ -2,6 +2,7 @@ package dev.cupokki.ChatKiosk.global.config;
 
 import dev.cupokki.ChatKiosk.common.agent.ProductAssistant;
 import dev.cupokki.ChatKiosk.common.tool.ProductQueryTool;
+import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.service.AiServices;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,10 @@ public class AssistantConfiguration {
         OllamaChatModel chatModel = OllamaChatModel.builder()
                 .baseUrl(ollamaBaseUrl)
                 .modelName(ollamaModelName)
-                .temperature(0.0) // 툴 호출의 안정성을 위해 낮게 설정
+                .temperature(0.1) // 툴 호출의 안정성을 위해 낮게 설정
+//                .responseFormat(ResponseFormat.JSON)
+                .logRequests(true)
+                .logResponses(true)
                 .build();
 
         // 2. AiServices를 통해 Agent(Assistant) 생성 및 Tool 연결

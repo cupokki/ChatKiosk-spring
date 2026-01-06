@@ -2,23 +2,27 @@ package dev.cupokki.ChatKiosk.common.tool;
 
 import dev.cupokki.ChatKiosk.entity.Product;
 import dev.cupokki.ChatKiosk.repository.ProductRepository;
+import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ProductQueryTool {
 
     private final ProductRepository productRepository;
 
-    @Tool("키워드로 상품의 이름, 가격, 재고를 조회합니다.")
-    public String findProductByKeyword(String keyword) {
+    @Tool("상품의 정보를 조회합니다.")
+    public String findProductByKeyword(@P("상품 조회를 위한 키워드 (예: '아메리카노', '콜라')")String keyword) {
 //        List<Product> products = productRepository.findAll();
+        log.info("find");
         var products = getDummyProducts(keyword);
         // TODO : pgvector 구현
 
@@ -29,8 +33,22 @@ public class ProductQueryTool {
                     p.getId(), p.getName(), 0, 0));
         });
         return sb.toString();
-
     }
+
+
+//    @Tool("모든 상품의 개수를 조회합니다.")
+//    public String getProductCount(String keyword) {
+////        List<Product> products = productRepository.findAll();
+//        log.info("count");
+//        return String.valueOf(3);
+//    }
+
+//    @Tool("적절한 도구가 없다면 사용하세요")
+//    public String unknown() {
+////        List<Product> products = productRepository.findAll();
+//        log.info("not found");
+//        return "뭐라고요?";
+//    }
 
     private List<Product> getDummyProducts(String keyword) {
         List<Product> dummyList = new ArrayList<>();
