@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  postgresql:
+    image: postgres:17-alpine
+    container_name: 'chatkiosk-postgre-db'
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      POSTGRES_USER: root        # 접속 계정
+      POSTGRES_PASSWORD: pw # 비밀번호 (실제 운영시에는 외부 파일이나 Secret 사용 권장)
+      POSTGRES_DB: chatkiosk
+

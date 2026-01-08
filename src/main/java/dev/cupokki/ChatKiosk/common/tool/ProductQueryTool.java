@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,20 +20,24 @@ public class ProductQueryTool {
 
     private final ProductRepository productRepository;
 
-    @Tool("상품의 정보를 조회합니다.")
-    public String findProductByKeyword(@P("상품 조회를 위한 키워드 (예: '아메리카노', '콜라')")String keyword) {
-//        List<Product> products = productRepository.findAll();
-        log.info("find");
-        var products = getDummyProducts(keyword);
-        // TODO : pgvector 구현
+    @Tool("Get Product information(Kind of price) by keyword(Product name). Information contain price and currency")
+    public String findProductByKeyword(    @P("Product keyword from message ") String keyword) {
+        log.info("find={}", keyword);
+        if (keyword.equals("노트북")) {
+            return "{\"삼성 노트북\": {\"price\":5000, \"currency\":\"krw\"}}";
+        } else {
+            return "{\"감자\": {\"price\":250, \"currency\":\"krw\"}}";
+        }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("상품 목록: \n[");
-        products.stream().limit(5).forEach(p -> {
-            sb.append(String.format("id: %d, name: %s, price: %d, stock: %d",
-                    p.getId(), p.getName(), 0, 0));
-        });
-        return sb.toString();
+    }
+
+    @Tool("""
+            현재시간을 반환합니다.
+            """)
+    public String getCurrentTime() {
+        var time = LocalDateTime.now().toLocalTime().toString();
+        log.info("Time{}",  time);
+        return time;
     }
 
 
