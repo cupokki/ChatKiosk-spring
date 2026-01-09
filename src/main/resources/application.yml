@@ -5,3 +5,15 @@ spring:
   output:
     ansi:
       enabled: always
+
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chatkiosk
+    driver-class-name: org.postgresql.Driver
+    username: usr
+    password: pw
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
