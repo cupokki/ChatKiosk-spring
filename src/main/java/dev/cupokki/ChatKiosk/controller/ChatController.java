@@ -1,6 +1,7 @@
 package dev.cupokki.ChatKiosk.controller;
 
 import dev.cupokki.ChatKiosk.common.agent.ProductAssistant;
+import dev.cupokki.ChatKiosk.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatController {
 
     private final ProductAssistant productAssistant;
+    private final ProductRepository productRepository;
 
     @GetMapping("/chat")
     public String getProductInfo(@RequestParam String query) {
@@ -32,7 +34,8 @@ public class ChatController {
 
     @GetMapping("")
     public String test() {
-        System.out.println("test");
+        var p = productRepository.findByName("치킨버거").get();
+        log.info("founded={}", p.getName());
         return "test";
     }
 }

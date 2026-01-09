@@ -1,8 +1,10 @@
 package dev.cupokki.ChatKiosk.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.List;
 @Table(name = "products")
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
     @Id
@@ -24,7 +28,7 @@ public class Product {
 
     private BigDecimal price;
 
-    private final int stock;
+    private int stock;
 
 //    private String currency;
 

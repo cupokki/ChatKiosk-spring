@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -21,14 +22,12 @@ public class ProductQueryTool {
     private final ProductRepository productRepository;
 
     @Tool("Get Product information(Kind of price) by keyword(Product name). Information contain price and currency")
-    public String findProductByKeyword(    @P("Product keyword from message ") String keyword) {
+    public Optional<Product> findProductByKeyword(@P("Product keyword from message ") String keyword) {
         log.info("find={}", keyword);
-        if (keyword.equals("노트북")) {
-            return "{\"삼성 노트북\": {\"price\":5000, \"currency\":\"krw\"}}";
-        } else {
-            return "{\"감자\": {\"price\":250, \"currency\":\"krw\"}}";
-        }
-
+        var product= productRepository.findByName(keyword);
+//                .orElseThrow(() -> new RuntimeException()); // 흐름이 이상한가? tool에서 예외 던지는 것 보다 아예 여기서 처리해야하나
+        log.info("founded={}", product.get());
+        return product;
     }
 
     @Tool("""
